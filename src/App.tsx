@@ -1,5 +1,6 @@
-import ProductCard from './components/card/card.tsx';
-import CreateCard from './components/createCard/createCard.tsx';
+import CardDetail from './components/cardDetail/cardDetail.tsx';
+import CardDetailPage from './components/cardDetailPage/cardDetailPage.tsx';
+import Header from './components/header/header.tsx';
 
 const testCard = {
   area: 'Turkish',
@@ -14,8 +15,10 @@ const testCard = {
 function App() {
   return (
     <>
-      <div></div>
-      <CreateCard />
+      <Header />
+      <CardDetailPage>
+        <CardDetail {...testCard} />
+      </CardDetailPage>
     </>
   );
 }
