@@ -1,6 +1,10 @@
 import CardDetail from './components/cardDetail/cardDetail.tsx';
 import CardDetailPage from './components/cardDetailPage/cardDetailPage.tsx';
 import Header from './components/header/header.tsx';
+import { Routes, Route } from 'react-router-dom';
+import CardList from './components/cardList/cardList.tsx';
+import ProductCard from './components/card/card.tsx';
+import CreateCard from './components/createCard/createCard.tsx';
 
 const testCard = {
   area: 'Turkish',
@@ -16,9 +20,19 @@ function App() {
   return (
     <>
       <Header />
-      <CardDetailPage>
-        <CardDetail {...testCard} />
-      </CardDetailPage>
+      <Routes>
+        <Route path={'/products'} element={<CardList />} />
+        <Route
+          path="/products/:id"
+          element={
+            <CardDetailPage>
+              <CardDetail {...testCard} />
+            </CardDetailPage>
+          }
+        />
+        <Route path="/create-product" element={<CreateCard />} />
+        <Route path="/create-product/:id" element={<CreateCard />} />
+      </Routes>
     </>
   );
 }

@@ -1,5 +1,5 @@
 function apiMeal() {
-  fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=a')
+  return fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=a')
     .then((res) => res.json())
     .then((data) => {
       const obj = data.meals.map((item) => {
@@ -12,9 +12,8 @@ function apiMeal() {
           instructions: item.strInstructions,
         };
       });
-      return console.log(obj);
-    })
-    .catch((err) => console.log(err));
+      return obj;
+    });
 }
 
-apiMeal();
+export default apiMeal;

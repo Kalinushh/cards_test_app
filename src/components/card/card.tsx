@@ -1,4 +1,5 @@
 import IconButton from '../../ui/iconButton/iconButton.tsx';
+import { Link } from 'react-router-dom';
 
 type ProductCardProps = {
   id: number;
@@ -15,20 +16,22 @@ function ProductCard(props: ProductCardProps) {
       data-id={id}
       className="block shadow-xl/20 w-full max-w-48 rounded-xl p-2"
     >
-      <span className="flex items-center">
-        <span className="h-px flex-1 bg-linear-to-r from-transparent to-gray-300"></span>
-        <h1 className="shrink-0 px-4 text-gray-900 line-clamp-1">{name}</h1>
-        <span className="h-px flex-1 bg-linear-to-l from-transparent to-gray-300"></span>
-      </span>
-      <img
-        className="h-64 w-full object-cover sm:h-80 lg:h-96"
-        src={image}
-        alt={name}
-      />
-      <h2 className="badge badge-outline line-clamp-1">{category}</h2>
-      <h2 className="mt-4 text-base font-bold text-gray-900 line-clamp-1">
-        {area}
-      </h2>
+      <Link to={`/products/${id}`}>
+        <span className="flex items-center">
+          <span className="h-px flex-1 bg-linear-to-r from-transparent to-gray-300"></span>
+          <h1 className="shrink-0 px-4 text-gray-900 line-clamp-1">{name}</h1>
+          <span className="h-px flex-1 bg-linear-to-l from-transparent to-gray-300"></span>
+        </span>
+        <img
+          className="h-64 w-full object-cover sm:h-80 lg:h-96"
+          src={image}
+          alt={name}
+        />
+        <h2 className="badge badge-outline line-clamp-1">{category}</h2>
+        <h2 className="mt-4 text-base font-bold text-gray-900 line-clamp-1">
+          {area}
+        </h2>
+      </Link>
       <IconButton>
         <svg
           xmlns="http://www.w3.org/2000/svg"

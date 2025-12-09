@@ -1,3 +1,5 @@
+import { useSelector, useDispatch } from 'react-redux';
+
 interface ICardList {
   children: React.ReactNode;
 }
