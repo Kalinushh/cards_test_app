@@ -1,20 +1,8 @@
-import CardDetail from './components/cardDetail/cardDetail.tsx';
 import CardDetailPage from './components/cardDetailPage/cardDetailPage.tsx';
 import Header from './components/header/header.tsx';
 import { Routes, Route } from 'react-router-dom';
 import CardList from './components/cardList/cardList.tsx';
-import ProductCard from './components/card/card.tsx';
 import CreateCard from './components/createCard/createCard.tsx';
-
-const testCard = {
-  area: 'Turkish',
-  category: 'Lamb',
-  id: 53262,
-  image: 'https://www.themealdb.com/images/media/meals/04axct1763793018.jpg',
-  instructions:
-    'step 1\r\nFinely chop the peppers in a food processor, then tip them in a sieve and press into the sieve so that the peppers release all of their juices. Tip into a bowl along with the mince, red pepper paste, pul biber, 1½ tsp flaky sea salt, and 2 tbsp of the oil. Mix together, kneading well for at least 2-3 mins. If you need to, wet your hands with cold water to prevent the mixture from sticking. The mixture should be sticky when ready. Cover and chill for at least 2 hrs, or up to 12 hrs.\r\n\r\nstep 2\r\nWhen ready to cook, heat the grill to high or an oven to 220C/200C fan/gas 6. Divide the mixture into 12 equal portions, around 85g each. If you’d like to skewer them, divide into 8 equal portions and roll into balls. Using wet hands, thread the balls onto the end of the skewers, massaging the mixture down the skewers in between the palms of your hands, until evenly distributed. Ensure that the mixture is fully wrapped tightly around the skewers without any exposed metal. Alternatively, lay them on a large baking tray lined with parchment paper if cooking in the oven, or foil if cooking under the grill. Shape into 20cm-long köfte. Wet your fingers with a little cold water and make indents all along the köfte for the traditional shape.\r\n\r\nstep 3\r\nGently brush each köfte with the remaining 1 tbsp oil and cook under the grill, on the top shelf for 10-12 mins, turning regularly, or cook in the oven for 16-18 mins, until crispy on the outside and juicy in the middle',
-  name: 'Adana kebab',
-};
 
 function App() {
   return (
@@ -22,16 +10,9 @@ function App() {
       <Header />
       <Routes>
         <Route path={'/products'} element={<CardList />} />
-        <Route
-          path="/products/:id"
-          element={
-            <CardDetailPage>
-              <CardDetail {...testCard} />
-            </CardDetailPage>
-          }
-        />
+        <Route path="/products/:id" element={<CardDetailPage />} />
         <Route path="/create-product" element={<CreateCard />} />
-        <Route path="/create-product/:id" element={<CreateCard />} />
+        <Route path="/products/:id/edit" element={<CreateCard />} />
       </Routes>
     </>
   );

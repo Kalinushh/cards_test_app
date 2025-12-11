@@ -1,4 +1,8 @@
 import IconButton from '../../ui/iconButton/iconButton.tsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite, deleteProduct } from '../../store/productSlice.ts';
+import { useNavigate } from 'react-router-dom';
+import type { RootState } from '../../types/types';
 
 type CardDetailProps = {
   id: number;
@@ -9,8 +13,25 @@ type CardDetailProps = {
   instructions?: string;
 };
 
-function CardDetail(props: CardDetailProps) {
+export function CardDetail(props: CardDetailProps) {
   const { id, name, image, category, area, instructions } = props;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const handleLike = () => {
+    dispatch(toggleFavorite(id));
+  };
+  const favorits = useSelector((state: RootState) => {
+    return state.products.favorites;
+  });
+  const isLike = favorits.includes(id);
+
+  const handleDelete = () => {
+    dispatch(deleteProduct(id));
+  };
+  const handleEdit = () => {
+    navigate(`/products/${id}/edit`);
+  };
+
   return (
     <article
       data-id={id}
@@ -18,7 +39,9 @@ function CardDetail(props: CardDetailProps) {
     >
       <span className="flex items-center">
         <span className="h-px flex-1 bg-linear-to-r from-transparent to-gray-300"></span>
-        <h1 className="shrink-0 px-4 text-gray-900 line-clamp-1">{name}</h1>
+        <h1 className=" shrink-0 max-w-[90%] px-4 text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis">
+          {name}
+        </h1>
         <span className="h-px flex-1 bg-linear-to-l from-transparent to-gray-300"></span>
       </span>
       <img
@@ -30,11 +53,11 @@ function CardDetail(props: CardDetailProps) {
       <p className="mt-4 text-base font-bold text-gray-900 line-clamp-1">
         {area}
       </p>
-      <p className="badge badge-outline line-clamp-4">{instructions}</p>
-      <IconButton>
+      <p className="badge badge-outline ">{instructions}</p>
+      <IconButton onClick={handleLike}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
+          fill={isLike ? 'black' : 'none'}
           stroke="currentColor"
           stroke-linejoin="round"
           stroke-width="3"
@@ -44,7 +67,7 @@ function CardDetail(props: CardDetailProps) {
           <path d="M37.585 66.244s22.263-15.459 31.959-30.318c9.6-14.708.354-31.054-10.533-33.8-14.457-3.65-21.426 10.478-21.426 10.478S30.617-1.524 16.16 2.126C5.272 4.874-3.972 21.22 5.626 35.926c9.696 14.859 31.959 30.318 31.959 30.318Z" />
         </svg>
       </IconButton>
-      <IconButton>
+      <IconButton onClick={handleDelete}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -54,7 +77,7 @@ function CardDetail(props: CardDetailProps) {
           <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" />
         </svg>
       </IconButton>
-      <IconButton>
+      <IconButton onClick={handleEdit}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -67,5 +90,3 @@ function CardDetail(props: CardDetailProps) {
     </article>
   );
 }
-
-export default CardDetail;

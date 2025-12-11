@@ -2,7 +2,7 @@ function apiMeal() {
   return fetch('https://www.themealdb.com/api/json/v1/1/search.php?f=a')
     .then((res) => res.json())
     .then((data) => {
-      const obj = data.meals.map((item) => {
+      const obj = data.meals.map((item: any) => {
         return {
           id: Number(item.idMeal),
           name: item.strMeal,

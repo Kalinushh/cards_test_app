@@ -1,5 +1,8 @@
 import IconButton from '../../ui/iconButton/iconButton.tsx';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteProduct, toggleFavorite } from '../../store/productSlice.ts';
+import type { RootState } from '../../types/types';
 
 type ProductCardProps = {
   id: number;
@@ -9,17 +12,40 @@ type ProductCardProps = {
   area: string;
 };
 
-function ProductCard(props: ProductCardProps) {
+export function ProductCard(props: ProductCardProps) {
   const { id, name, image, category, area } = props;
+  const dispatch = useDispatch();
+  const handleLike = () => {
+    dispatch(toggleFavorite(id));
+  };
+  const favorits = useSelector((state: RootState) => {
+    return state.products.favorites;
+  });
+  const isLike = favorits.includes(id);
+  const handleDelete = () => {
+    dispatch(deleteProduct(id));
+  };
   return (
     <article
       data-id={id}
-      className="block shadow-xl/20 w-full max-w-48 rounded-xl p-2"
+      className="block shadow-xl/20 w-full max-w-48 rounded-xl p-2 "
     >
       <Link to={`/products/${id}`}>
         <span className="flex items-center">
           <span className="h-px flex-1 bg-linear-to-r from-transparent to-gray-300"></span>
-          <h1 className="shrink-0 px-4 text-gray-900 line-clamp-1">{name}</h1>
+          <h1
+            className="
+    shrink-0
+    max-w-[80%]
+    px-4
+    text-gray-900
+    whitespace-nowrap
+    overflow-hidden
+    text-ellipsis
+  "
+          >
+            {name}
+          </h1>
           <span className="h-px flex-1 bg-linear-to-l from-transparent to-gray-300"></span>
         </span>
         <img
@@ -32,10 +58,10 @@ function ProductCard(props: ProductCardProps) {
           {area}
         </h2>
       </Link>
-      <IconButton>
+      <IconButton onClick={handleLike}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          fill="none"
+          fill={isLike ? 'black' : 'none'}
           stroke="currentColor"
           stroke-linejoin="round"
           stroke-width="3"
@@ -45,7 +71,7 @@ function ProductCard(props: ProductCardProps) {
           <path d="M37.585 66.244s22.263-15.459 31.959-30.318c9.6-14.708.354-31.054-10.533-33.8-14.457-3.65-21.426 10.478-21.426 10.478S30.617-1.524 16.16 2.126C5.272 4.874-3.972 21.22 5.626 35.926c9.696 14.859 31.959 30.318 31.959 30.318Z" />
         </svg>
       </IconButton>
-      <IconButton>
+      <IconButton onClick={handleDelete}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
@@ -58,5 +84,3 @@ function ProductCard(props: ProductCardProps) {
     </article>
   );
 }
-
-export default ProductCard;

@@ -13,6 +13,7 @@ function UploaderUI() {
         type="file"
         accept="image/*"
         className="sr-only"
+        name="file-upload"
       />
     </>
   );

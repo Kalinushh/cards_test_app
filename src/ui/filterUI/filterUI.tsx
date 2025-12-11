@@ -1,8 +1,19 @@
-function FilterUI() {
+import React from 'react';
+
+type FilterUIProps = {
+  className?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  checked: boolean;
+};
+
+function FilterUI(props: FilterUIProps) {
+  const { className, onChange, checked } = props;
   return (
-    <div className="flex gap-4 sm:gap-6">
+    <div className={`flex gap-4 sm:gap-6`}>
       <details className="group relative">
-        <summary className="flex items-center gap-2 border-b border-gray-300 pb-1 text-gray-700 transition-colors hover:border-gray-400 hover:text-gray-900 [&amp;::-webkit-details-marker]:hidden">
+        <summary
+          className={`flex items-center gap-2 border-b border-gray-300 pb-1 text-gray-700 transition-colors hover:border-gray-400 hover:text-gray-900 [&amp;::-webkit-details-marker]:hidden ${className ?? ''}`}
+        >
           <span className="text-sm font-medium"> Фильтр </span>
 
           <span className="transition-transform group-open:-rotate-180">
@@ -24,19 +35,8 @@ function FilterUI() {
         </summary>
 
         <div className="z-auto w-64 divide-y divide-gray-300 rounded border border-gray-300 bg-white shadow-sm group-open:absolute group-open:end-0 group-open:top-8">
-          <div className="flex items-center justify-between px-3 py-2">
-            <span className="text-sm text-gray-700"> 0 Selected </span>
-
-            <button
-              type="button"
-              className="text-sm text-gray-700 underline transition-colors hover:text-gray-900"
-            >
-              Reset
-            </button>
-          </div>
-
           <fieldset className="p-3">
-            <legend className="sr-only">Checkboxes</legend>
+            <legend className="sr-only ">Checkboxes</legend>
 
             <div className="flex flex-col items-start gap-3">
               <label
@@ -45,8 +45,10 @@ function FilterUI() {
               >
                 <input
                   type="checkbox"
-                  className="size-5 rounded border-gray-300 shadow-sm"
+                  className="size-5 rounded border-gray-300 shadow-sm accent-teal-600"
                   id="Option1"
+                  onChange={onChange}
+                  checked={checked}
                 />
 
                 <span className="text-sm font-medium text-gray-700">

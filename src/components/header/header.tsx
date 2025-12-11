@@ -1,13 +1,33 @@
 import FilterUI from '../../ui/filterUI/filterUI.tsx';
 import ButtonUI from '../../ui/buttonUI/buttonUI.tsx';
-import InputUI from '../../ui/inputUI/inputUI.tsx';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorites } from '../../store/productSlice.ts';
+import type { RootState } from '../../types/types';
 
 function Header() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const openCreate = () => {
+    navigate('/create-product');
+  };
+  const backStep = () => {
+    navigate(-1);
+  };
+  const dispatch = useDispatch();
+  const showFavorites = useSelector(
+    (state: RootState) => state.products.showFavorites
+  );
+
+  const isProductsPage = location.pathname === '/products';
   return (
     <header className="bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          <a className="block text-teal-600" href="#">
+          <a
+            className="block text-teal-600 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus:outline-none disabled:pointer-events-auto disabled:opacity-50"
+            href="#"
+          >
             <span className="sr-only">Home</span>
             <svg
               className="h-8"
@@ -22,21 +42,36 @@ function Header() {
             </svg>
           </a>
           <ButtonUI
-            name={'Назад'}
-            className={
-              'w-[100px] mx-auto text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus:outline-none disabled:pointer-events-auto disabled:opacity-50'
-            }
+            onClick={isProductsPage ? undefined : backStep}
+            name="Назад"
+            className={`w-[100px] mx-auto transition-colors ${
+              isProductsPage
+                ? 'text-gray-400 bg-gray-200 pointer-events-none cursor-default'
+                : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+            }`}
           />
 
           <div className="flex gap-4">
-            <InputUI placeholder={'Поиск'} id={'Search'} />
             <ButtonUI
               name={'+'}
               className={
-                'w-[50px] mx-auto text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-blue-200 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus:outline-none disabled:pointer-events-auto disabled:opacity-50'
+                'w-[50px] mx-auto text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-teal-600 focus-visible:ring-offset-2 focus-visible:ring-offset-white focus:outline-none disabled:pointer-events-auto disabled:opacity-50'
               }
+              onClick={openCreate}
             />
-            <FilterUI />
+            <div
+              className={
+                isProductsPage
+                  ? ''
+                  : 'opacity-50 pointer-events-none cursor-default'
+              }
+            >
+              <FilterUI
+                className="focus-visible:ring-2 focus-visible:ring-teal-600"
+                onChange={() => isProductsPage && dispatch(toggleFavorites())}
+                checked={showFavorites}
+              />
+            </div>
           </div>
         </div>
       </div>
